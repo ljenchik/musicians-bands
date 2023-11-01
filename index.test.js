@@ -76,4 +76,20 @@ describe("Band, Musician, and Song Models", () => {
         const deletedMusician = await newMusician.destroy();
         expect(deletedMusician).toBe(newMusician);
     });
+
+    test("increment method", async () => {
+        let newSong = await Song.findOne({
+            where: {
+                title: "Valentine",
+            },
+        });
+        expect(newSong.length).toBe(457);
+        await newSong.increment("length", { by: 5 });
+        newSong = await Song.findOne({
+            where: {
+                title: "Valentine",
+            },
+        });
+        expect(newSong.length).toBe(462);
+    });
 });
