@@ -6,6 +6,7 @@ Band.init(
     {
         name: DataTypes.STRING,
         genre: DataTypes.STRING,
+        showCount: DataTypes.INTEGER,
     },
     {
         sequelize: db,
