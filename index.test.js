@@ -92,4 +92,14 @@ describe("Band, Musician, and Song Models", () => {
         });
         expect(newSong.length).toBe(462);
     });
+
+    test("toMinutes method for Song Model", async () => {
+        let newSong = await Song.findOne({
+            where: {
+                title: "Valentine",
+            },
+        });
+        await newSong.update({ length: newSong.toMinutes(newSong.length) });
+        expect(newSong.length).toEqual("7:42");
+    });
 });

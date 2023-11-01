@@ -14,6 +14,12 @@ Song.init(
     }
 );
 
+Song.prototype.toMinutes = function (length) {
+    const minutes = Math.floor(length / 60);
+    const seconds = length % 60;
+    return `${minutes}:${seconds}`;
+};
+
 module.exports = {
     Song,
 };
