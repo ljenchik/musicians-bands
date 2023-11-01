@@ -14,11 +14,11 @@ describe("Band, Musician, and Song Models", () => {
 
     test("can create a Band", async () => {
         const newBand = await Band.create({
-            name: "Peace",
-            genre: "Rock",
+            name: "Bugs",
+            genre: "rock",
         });
-        expect(newBand.name).toBe("Peace");
-        expect(newBand.genre).toBe("Rock");
+        expect(newBand.name).toBe("Bugs");
+        expect(newBand.genre).toBe("rock");
     });
 
     test("can create a Musician", async () => {
@@ -32,41 +32,30 @@ describe("Band, Musician, and Song Models", () => {
 
     test("can update a Band", async () => {
         const newBand = await Band.create({
-            name: "Peace",
-            genre: "Rock",
-        });
-        const newBand2 = await Band.create({
-            name: "War",
+            name: "Animals",
             genre: "Jazz",
         });
-        newBand2.update({ name: "Be happy", genre: "soul" });
-        expect(newBand2.name).toBe("Be happy");
-        expect(newBand2.genre).toBe("soul");
+        newBand.update({ name: "Cartoons", genre: "funk" });
+        expect(newBand.name).toBe("Cartoons");
+        expect(newBand.genre).toBe("funk");
     });
 
     test("can update a Musician", async () => {
         const newMusician = await Musician.create({
-            name: "Harry",
-            instrument: "piano",
-        });
-        const newMusician2 = await Musician.create({
             name: "Ben",
             instrument: "drums",
         });
-        newMusician2.update({ name: "Bill" });
-        expect(newMusician2.name).toBe("Bill");
-        expect(newMusician2.instrument).toBe("drums");
+        newMusician.update({ name: "Bill" });
+        expect(newMusician.name).toBe("Bill");
+        expect(newMusician.instrument).toBe("drums");
     });
 
     test("can delete a Band", async () => {
         const newBand = await Band.create({
-            name: "Peace",
+            name: "Bugs",
             genre: "Rock",
         });
-        const newBand2 = await Band.create({
-            name: "War",
-            genre: "Jazz",
-        });
+
         const deletedBand = await newBand.destroy();
         expect(deletedBand).toEqual(newBand);
     });
@@ -75,10 +64,6 @@ describe("Band, Musician, and Song Models", () => {
         const newMusician = await Musician.create({
             name: "Harry",
             instrument: "piano",
-        });
-        const newMusician2 = await Musician.create({
-            name: "Ben",
-            instrument: "drums",
         });
         const deletedMusician = await newMusician.destroy();
         expect(deletedMusician).toBe(newMusician);
