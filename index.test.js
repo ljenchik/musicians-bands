@@ -102,4 +102,29 @@ describe("Band, Musician, and Song Models", () => {
         await newSong.update({ length: newSong.toMinutes(newSong.length) });
         expect(newSong.length).toEqual("7:42");
     });
+
+    // test("theLongestSong method for Song Model", async () => {
+    //     const allSongs = await Song.findAll();
+    //     const theLongestSong = Song.theLongestSong(allSongs);
+    //     expect(theLongestSong).toEqual({});
+    // });
+    test("tests 1 to many band-musician association", async () => {
+        const bands = await Band.findAll();
+        expect(bands[0] instanceof Band).toEqual(true);
+        expect(bands[0]).toEqual(expect.objectContaining({ name: "Apples" }));
+        const foundBand = await Band.findOne({ where: { name: "Mangoes" } });
+        const musician1 = await Musician.findByPk(1);
+        const musician2 = await Musician.findByPk(2);
+        await foundBand.addMusicians([musician1, musician2]);
+        const band = await Band.findOne({
+            where: { name: "Mangoes" },
+            include: Musician,
+        });
+        console.log(JSON.stringify(band, null, 2));
+        const musiciansAssociatedWithBand = await foundBand.getMusicians();
+        expect(musiciansAssociatedWithBand.length).toBe(2);
+        expect(musiciansAssociatedWithBand[0]).toEqual(
+            expect.objectContaining({ name: "Ben" })
+        );
+    });
 });

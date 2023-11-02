@@ -1,6 +1,16 @@
 const { db, DataTypes, Model } = require("../db");
 
-class Song extends Model {}
+class Song extends Model {
+    theLongestSong(allSongs) {
+        let longestSong = allSongs[0];
+        for (const song of allSongs) {
+            if (song.length > longest) {
+                longestSong = song;
+            }
+        }
+        return longestSong;
+    }
+}
 
 Song.init(
     {
