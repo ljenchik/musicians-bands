@@ -127,4 +127,25 @@ describe("Band, Musician, and Song Models", () => {
             expect.objectContaining({ name: "Ben" })
         );
     });
+
+    // tests many to many associations between Band and Song
+    test("tests many to many bands-songs association", async () => {
+        const band = await Band.findByPk(5);
+        const song1 = await Song.findByPk(4);
+        const song2 = await Song.findByPk(3);
+        await band.addSongs([song1, song2]);
+        const bandWithSongs = await band.getSongs();
+        expect(bandWithSongs.length).toBe(2);
+        expect(bandWithSongs[0] instanceof Song).toBe(true);
+    });
+
+    test("tests many to many songs-bands association", async () => {
+        const band1 = await Band.findByPk(5);
+        const band2 = await Band.findByPk(3);
+        const song = await Song.findByPk(4);
+        await song.addBands([band1, band2]);
+        const bands = await song.getBands();
+        expect(bands.length).toBe(2);
+        expect(bands[0] instanceof Band).toBe(true);
+    });
 });
