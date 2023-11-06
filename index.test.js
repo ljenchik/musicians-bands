@@ -1,6 +1,11 @@
 const { db } = require("./db");
-const { Band, Musician, Song } = require("./index");
-const { bandSeeds, musicianSeeds, songSeeds } = require("./seeds/seeds");
+const { Band, Musician, Song, Manager } = require("./index");
+const {
+    bandSeeds,
+    musicianSeeds,
+    songSeeds,
+    managerSeeds,
+} = require("./seeds/seeds");
 
 describe("Band, Musician, and Song Models", () => {
     /**
@@ -14,6 +19,7 @@ describe("Band, Musician, and Song Models", () => {
         await Band.bulkCreate(bandSeeds);
         await Musician.bulkCreate(musicianSeeds);
         await Song.bulkCreate(songSeeds);
+        await Manager.bulkCreate(managerSeeds);
     });
 
     test("can create a Band", async () => {
@@ -120,7 +126,7 @@ describe("Band, Musician, and Song Models", () => {
             where: { name: "Mangoes" },
             include: Musician,
         });
-        console.log(JSON.stringify(band, null, 2));
+        //console.log(JSON.stringify(band, null, 2));
         const musiciansAssociatedWithBand = await foundBand.getMusicians();
         expect(musiciansAssociatedWithBand.length).toBe(2);
         expect(musiciansAssociatedWithBand[0]).toEqual(
@@ -147,5 +153,16 @@ describe("Band, Musician, and Song Models", () => {
         const bands = await song.getBands();
         expect(bands.length).toBe(2);
         expect(bands[0] instanceof Band).toBe(true);
+    });
+
+    test("tests 1 to 1 band-manager association", async () => {
+        const band = await Band.findByPk(1);
+        const manager = await Manager.findByPk(3);
+        await band.setManager(manager);
+        const associatedManager = await band.getManager();
+        expect(associatedManager.name).toEqual("Lilly");
+        const bandWithManager = await Band.findByPk(1, { include: Manager });
+        console.log(JSON.stringify(bandWithManager, null, 2));
+        expect(bandWithManager.Manager.salary).toBe(90000);
     });
 });

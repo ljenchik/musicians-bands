@@ -25,4 +25,10 @@ songSeeds = [
     { title: "Valentine", year: 2000, length: 457 },
 ];
 
-module.exports = { bandSeeds, musicianSeeds, songSeeds };
+managerSeeds = [
+    { name: "Luca", email: "luca@gmail.com", salary: 100000 },
+    { name: "Leon", email: "leon@gmail.com", salary: 120000 },
+    { name: "Lilly", email: "lilly@gmail.com", salary: 90000 },
+];
+
+module.exports = { bandSeeds, musicianSeeds, songSeeds, managerSeeds };
