@@ -165,4 +165,19 @@ describe("Band, Musician, and Song Models", () => {
         console.log(JSON.stringify(bandWithManager, null, 2));
         expect(bandWithManager.Manager.salary).toBe(90000);
     });
+
+    test("tests eager loading", async () => {
+        const allBandsWithMusicians = await Band.findAll({
+            include: Musician,
+        });
+        //console.log(JSON.stringify(allBandsWithMusicians, null, 2));
+        expect(allBandsWithMusicians.length).toBe(8);
+        expect(allBandsWithMusicians[5].Musicians.length).toEqual(2);
+        expect(allBandsWithMusicians[5].Musicians).toEqual(
+            expect.arrayContaining([expect.objectContaining({ name: "Ben" })])
+        );
+        expect(allBandsWithMusicians[5].Musicians).toEqual(
+            expect.arrayContaining([expect.objectContaining({ name: "Ann" })])
+        );
+    });
 });
